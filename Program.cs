@@ -5,8 +5,8 @@
         static void Main(string[] args)
         {
             Gamestate state = new Gamestate();
-            
-           TicTac game = new TicTac();
+            InputValidator validator = new InputValidator();
+           TicTac game = new TicTac(validator);
            while (true){
            game.TakeInput();
 
@@ -16,9 +16,11 @@
     }
     class TicTac
     {
-        public TicTac(){_state = new Gamestate(); Turn = true;}
+        public TicTac(InputValidator validator){ _validator = validator; _state = new Gamestate(); Turn = true;}
 
         public bool Turn { get; set;}
+
+        private InputValidator _validator;
 
         public void TakeInput(){
             Console.WriteLine(View.DisplayState(_state.State));
@@ -34,13 +36,13 @@
                 int column;
             try
             {
-                while (!Int32.TryParse(Console.ReadLine(), out row))
+            while (!Int32.TryParse(Console.ReadLine(), out row))
             {
                 Console.WriteLine("The value entered was not a number, try again.");
                 Console.WriteLine("Input number: ");
             }
 
-                while (!Int32.TryParse(Console.ReadLine(), out column))
+            while (!Int32.TryParse(Console.ReadLine(), out column))
             {
                 Console.WriteLine("The value entered was not a number, try again.");
                 Console.WriteLine("Input number: ");
@@ -51,8 +53,10 @@
                 
                 throw;
             }
-            _state.changegameState(row,column,Turn == true? 1:-1);
-
+            if(_validator.Validate(row, column, _state))
+                {
+                    _state.changegameState(row,column,Turn == true? 1:-1);
+                }
 
 
         }
@@ -87,6 +91,27 @@
 
     }
 
+
+    class InputValidator
+    {
+        public InputValidator(){}
+
+        public bool Validate(int row, int column, Gamestate state){
+            if (row > state.State.Length || row < 0)
+            {   
+                return false;
+            }
+            if (column > state.State.Length || column < 0)
+            {   
+                return false;
+            }
+            
+            if( state.State[row][column] == 0){
+                return true;
+            }
+            else return false;
+        }
+    }
 
     class Gamestate
     {
