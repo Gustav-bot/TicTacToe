@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            Gamestate state = new Gamestate();
+            GameController state = new GameController();
             InputValidator validator = new InputValidator();
            TicTac game = new TicTac(validator);
            while (true){
@@ -16,7 +16,7 @@
     }
     class TicTac
     {
-        public TicTac(InputValidator validator){ _validator = validator; _state = new Gamestate(); Turn = true;}
+        public TicTac(InputValidator validator){ _validator = validator; _state = new GameController(); Turn = true;}
 
         public bool Turn { get; set;}
 
@@ -61,7 +61,7 @@
 
         }
 
-        private Gamestate _state; 
+        private GameController _state; 
     }
     class View 
     {
@@ -96,7 +96,7 @@
     {
         public InputValidator(){}
 
-        public bool Validate(int row, int column, Gamestate state){
+        public bool Validate(int row, int column, GameController state){
             if (row > state.State.Length || row < 0)
             {   
                 return false;
@@ -113,9 +113,44 @@
         }
     }
 
-    class Gamestate
+    class MinMax{
+
+
+    // function minimax(node, depth, maximizingPlayer) is  
+    // if depth ==0 or node is a terminal node then  
+    // return static evaluation of node  
+      
+    // if MaximizingPlayer then      // for Maximizer Player  
+    // maxEva= -infinity            
+    //  for each child of node do  
+    //  eva= minimax(child, depth-1, false)  
+    // maxEva= max(maxEva,eva)        //gives Maximum of the values  
+    // return maxEva  
+      
+    // else                         // for Minimizer player  
+    //  minEva= +infinity   
+    //  for each child of node do  
+    //  eva= minimax(child, depth-1, true)  
+    //  minEva= min(minEva, eva)         //gives minimum of the values  
+    //  return minEva  
+
+    
+        // public IDictionary<int[][], int[]> createCorrectMoveDictionaryVisitor(LinkedList tree){
+            
+
+        //  };
+
+        // public LinkedList createMinMaxTree( GameController game){};
+        public void findBestMove()
+        {}
+    }
+    // class TicTackState{
+    
+    
+    // }
+    class GameController
     {
-        public Gamestate(){
+        public GameController(){
             int [][] newState = new int[3][];
             newState[0] = new int[3]{0,0,0};
             newState[1] = new int[3]{0,0,0};
